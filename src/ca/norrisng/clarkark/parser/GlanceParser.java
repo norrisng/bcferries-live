@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class GlanceParser {
 
-	static final boolean OFFLINE_TEST = false;
+	static final boolean OFFLINE_TEST = true;
 
 	/**
 	 * Retrieves detailed info for the next 3 sailings.

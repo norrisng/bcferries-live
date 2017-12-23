@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class ActualParser {
 
-	static final boolean OFFLINE_TEST = false;
+	static final boolean OFFLINE_TEST = true;
 
 	/**
 	 * Retrieves/scrapes all sailings (scheduled or otherwise) from BC Ferries' website.

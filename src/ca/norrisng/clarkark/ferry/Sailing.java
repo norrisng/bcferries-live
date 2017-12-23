@@ -158,4 +158,28 @@ public class Sailing {
 	public int getOversizeWaits() {
 		return oversizeWaits;
 	}
+
+	/**
+	 * Sets the loading of the current sailing.
+	 * @param loading	How full the sailing is, in percent
+	 */
+	public void setLoading(int loading) {
+		this.loading = loading;
+	}
+
+	/**
+	 * Sets the number of car waits.
+	 * @param carWaits	Number of car waits
+	 */
+	public void setCarWaits(int carWaits) {
+		this.carWaits = carWaits;
+	}
+
+	/**
+	 * Sets the number of oversized vehicle waits.
+	 * @param oversizeWaits	Number of oversize waits
+	 */
+	public void setOversizeWaits(int oversizeWaits) {
+		this.oversizeWaits = oversizeWaits;
+	}
 }
