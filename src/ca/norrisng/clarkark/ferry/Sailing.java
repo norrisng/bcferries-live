@@ -69,6 +69,17 @@ public class Sailing {
 		this.oversizeWaits = oversizeWaits;
 	}
 
+	/**
+	 * Creates a sailing, without including information on car/oversize loadings.
+	 * @param dep		Departure port. Do not include the word "terminal" at the end.
+	 * @param arr		Arrival port. Do not include the word "terminal" at the end.
+	 * @param shipName	Vessel name. Do not include the "MV" prefix.
+	 * @param status	Status ("Scheduled", "On Time", or other reason as provided by BC Ferries)
+	 * @param schedDep	Scheduled departure time
+	 * @param actualDep	Actual departure time
+	 * @param arrival	Arrival time. May be estimated or actual. If not yet available, use null.
+	 * @throws ParseException	Arrival time cannot be parsed
+	 */
 	public Sailing (String dep, String arr, String shipName, String status, String schedDep, String actualDep, String arrival) throws ParseException {
 		this.dep = dep;
 		this.arr = arr;
@@ -79,6 +90,8 @@ public class Sailing {
 
 		if (!actualDep.equals(""))
 			this.actualDep = LocalTime.parse(getIso(actualDep));
+		else
+			this.actualDep = null;
 
 		// no arrival time yet
 		if (arrival == null || arrival.equals("") || arrival.equals("..."))
