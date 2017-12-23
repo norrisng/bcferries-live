@@ -68,14 +68,12 @@ public class ActualParser {
 				// Collapse space between "ETA:" and time, if present
 				currRow = currRow.replace("ETA: ", "ETA:");
 
+				// For debugging purposes: show unparsed line
 //				System.out.println("currRow: " + currRow);
 
 
 				// ignore "column title" rows
 				if (!currRow.contains("Status")) {
-
-
-					/* Begin test implementation */
 
 					if (currRow.contains("Sailing")) {
 
@@ -142,8 +140,6 @@ public class ActualParser {
 							}
 						}
 						// end parsing sailings times and status
-//						System.out.println("STD=" + schedDep + " / ATD=" + actualDep + " / (E)TA=" + estArr);
-//						System.out.println("Status: " + status);
 
 
 						try {
@@ -156,90 +152,6 @@ public class ActualParser {
 
 					}
 
-					/* End test implementation */
-
-					/* Begin existing implementation */
-
-//					// such a row represents a sailing, and contains the vessel name, STD, ATD, (E)TA, and status
-//					if (!currRow.contains("Sailing")) {
-//
-//						// Strip out everything but the vessel name
-//						String shipName = currRow.replaceAll(" \\d{1,2}.*(A|P)M.*","");
-////						System.out.print("Ship: " + shipName + ": ");
-//
-//						// First, collapse the space separating the minutes and "AM"/"PM" so we can call split() without losing them
-//						String rawTimes = currRow.replaceAll(" AM","AM").replaceAll(" PM","PM");
-//
-//						// Now we can break it apart into STD/ATD/(E)TA/statuses
-//						String[] times = rawTimes.replaceAll(shipName,"").split(" ");
-//
-//						// Parse the sailing times and status
-//						int i = 0;
-//						String schedDep = "";
-//						String actualDep = "";
-//						String estArr = "";
-//						String status = "";
-//
-//						// special case: the sailing hasn't departed yet, so it'll only contain the STD
-//						if (times.length == 1)
-//							schedDep = times[0];
-//
-//						else {
-//							for (String s : times) {
-//
-//								switch (i) {
-//									case 0:			// blank; dummy instruction
-//										status = "";
-//										break;
-//									case 1:        // STD
-//										schedDep = s;
-//										break;
-//									case 2:        // ATD
-//										actualDep = s;
-//										break;
-//									case 3: {   // (E)TA
-//										estArr = s;
-//										if (estArr.equals("..."))
-//											estArr = null;
-//										break;
-//									}
-//									default:    // status
-//										status += " " + s;
-//										break;
-//								}
-//
-//								i++;
-//							}
-//						}
-//						// end parsing sailings times and status
-////						System.out.println("STD=" + schedDep + " / ATD=" + actualDep + " / (E)TA=" + estArr);
-////						System.out.println("Status: " + status);
-//
-//
-//						try {
-//							allSailings.add(new Sailing(dep, arr, shipName, status, schedDep, actualDep, estArr));
-//						}
-//						catch (ParseException e) {
-//							System.err.println("schedDep, actualDep, or estArr could not be parsed.");
-//							e.printStackTrace();
-//						}
-//
-//					}
-//
-//					// otherwise, this is a row that contains route information
-//					else if (currRow.contains("Sailing")) {
-//
-//						// Strip out everything except for the departure port
-//						dep = currRow.replaceAll(" to.*","");
-//
-//						// Strip out everything except for the arrival port
-//						arr = currRow.replaceAll(".* to ","");
-//						arr = arr.replaceAll(" Sailing.*","");
-//
-//						routes.add(new FerryRoute(dep, arr));
-//					}
-
-					/* End existing implementation */
 				}
 			}
 
@@ -258,11 +170,6 @@ public class ActualParser {
 		for (FerryRoute r : routes) {
 			System.out.println(r.getDep() + " --> " + r.getArr());
 		}
-
-//		for (Element table : doc.select("a")) {
-//			Elements route = table.getElementsByTag("name");
-//			System.out.println(route.text());
-//		}
 
 		return allSailings;
 
