@@ -24,34 +24,25 @@ public class Main {
         try {
 
 			/* 	NOTE: 	to use the offline file for testing purposes,
-			 *			change the OFFLINE_TEST value inside GlanceParser or ActualParser
+			 *			change the OFFLINE_TEST value inside GlanceParser and ActualParser
 			 */
+			CombinedParser cp = new CombinedParser();
+			ArrayList<Sailing> detailedSailings = cp.getAllSailings();
 
-			// Scrape vessel loading info
-//			GlanceParser gp = new GlanceParser();
-//			ArrayList<Sailing> sailings = gp.parse();
+			System.out.println("All sailings, after combining results from both pages...");
 
-			// Scrape all sailings for today
-			ActualParser ap = new ActualParser();
-			ArrayList<Sailing> upcomingSailings = ap.parse();
+			String output = "";
 
-//			CombinedParser cp = new CombinedParser();
-//			ArrayList<Sailing> detailedSailings = cp.getAllSailings();
-//
-//			System.out.println("All sailings, after combining results from both pages...");
-//
-//			String output = "";
-//
-//			for (Sailing s : detailedSailings) {
-//
-//				// dep -> arr, ship, schedDep, actualDep, arrival, status, loading, carwaits, oversizeWaits
-//
-//				output += s.getDep() + "-->" + s.getArr() + " / " + s.getShipName() + " / " +
-//							" Scheduled " + s.getSchedDep().toString() + ", Departed " + s.getActualDep().toString() + ", Arrive(d) " + s.getArrival().toString() +
-//							" / Status: " + s.getStatus() + " / " + Integer.toString(s.getLoading()) + " full";
-//
-//				System.out.println(output);
-//			}
+			for (Sailing s : detailedSailings) {
+
+				// dep -> arr, ship, schedDep, actualDep, arrival, status, loading
+
+				output += s.getDep() + " --> " + s.getArr() + " / " + s.getShipName() + " / " +
+							" Scheduled " + s.getSchedDep().toString() + ", Departed " + s.getActualDep().toString() + ", Arrive(d) " + s.getArrival().toString() +
+							" / Status: " + s.getStatus() + " / " + Integer.toString(s.getLoading()) + "% full";
+
+				System.out.println(output);
+			}
 
 
         } catch (Exception e) {

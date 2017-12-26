@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public class GlanceParser {
 
-	static final boolean OFFLINE_TEST = true;
+	static final boolean OFFLINE_TEST = false;
 
 	/**
 	 * Retrieves detailed info for the next 3 sailings.
@@ -106,8 +107,16 @@ public class GlanceParser {
 								loading = Integer.parseInt(str.replace("%",""));
 
 							else {
-								System.out.println("  adding sailing: " + dep + " --> " + arr + " at " + depTime + " (" + loading + "% full)");
-								sailings.add(new Sailing(dep, arr, "n/a", "n/a", loading, 0, 0));
+//								System.out.println("  adding sailing: " + dep + " --> " + arr + " at " + depTime + " (" + loading + "% full)");
+
+								try {
+									sailings.add(new Sailing(dep, arr, depTime, loading));
+								}
+								catch (ParseException e) {
+									System.err.println("Parse error - dep/arr/depTime/loading likely has an invalid value.");
+									e.printStackTrace();
+
+								}
 							}
 						}
 
@@ -119,7 +128,6 @@ public class GlanceParser {
 				}
 			}
 		}
-
 
 		return sailings;
 
@@ -134,7 +142,7 @@ public class GlanceParser {
 		String rawPage = "";
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("glance.html"));
+			BufferedReader br = new BufferedReader(new FileReader("test_glance.html"));
 			String line;
 
 			while ((line = br.readLine()) != null) {

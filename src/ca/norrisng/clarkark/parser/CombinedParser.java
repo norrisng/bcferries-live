@@ -25,19 +25,16 @@ public class CombinedParser {
 		GlanceParser gp = new GlanceParser();
 		detailedSailings = gp.parse();
 
-		// Add loading info to the relevant sailings in the working copy
+		// Add loading info to the relevant sailings
 		for (Sailing detailedSailing : detailedSailings) {
 
 			for (Sailing a : allSailings) {
 
-				// TODO: null pointer at getArr()
+				// TODO: null pointer at getArr() (possibly resolved already?)
 				if (detailedSailing.getDep().equals(a.getDep()) &&
 						detailedSailing.getArr().equals(a.getArr()) &&
 						detailedSailing.getSchedDep().equals(a.getSchedDep())) {
 					a.setLoading(detailedSailing.getLoading());
-					/* Car and oversize waits haven't been implemented in GlanceParser yet */
-//					a.setCarWaits(detailedSailing.getCarWaits());
-//					a.setOversizeWaits(detailedSailing.getOversizeWaits());
 				}
 
 			}

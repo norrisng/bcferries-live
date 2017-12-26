@@ -50,23 +50,18 @@ public class Sailing {
 	private int loading;
 
 	/**
-	 * Number of car waits
+	 * Creates a sailing based on the information available on the "At a Glance" page.
+	 * @param dep			Departure port. Do not include the word "terminal" at the end.
+	 * @param arr			Arrival port. Do not include the word "terminal" at the end.
+	 * @param schedDep		Scheduled departure time
+	 * @param loading		How full the sailing is, in percent
+	 * @throws ParseException
 	 */
-	private int carWaits;
-
-	/**
-	 * Number of oversize waits.
-	 */
-	private int oversizeWaits;
-
-	public Sailing(String dep, String arr, String shipName, String status, int loading, int carWaits, int oversizeWaits) {
+	public Sailing(String dep, String arr, String schedDep, int loading) throws ParseException {
 		this.dep = dep;
 		this.arr = arr;
-		this.shipName = shipName;
-		this.status = status;
+		this.schedDep = LocalTime.parse(getIso(schedDep));
 		this.loading = loading;
-		this.carWaits = carWaits;
-		this.oversizeWaits = oversizeWaits;
 	}
 
 	/**
@@ -105,6 +100,8 @@ public class Sailing {
 		if (this.actualDep == null)
 			this.status = "Scheduled";
 	}
+
+
 
 	/**
 	 * Converts 12-hour time to ISO 8601-compliant 24-hour time.
@@ -151,12 +148,8 @@ public class Sailing {
 		return loading;
 	}
 
-	public int getCarWaits() {
-		return carWaits;
-	}
-
-	public int getOversizeWaits() {
-		return oversizeWaits;
+	public void setShipName(String shipName) {
+		this.shipName = shipName;
 	}
 
 	/**
@@ -167,19 +160,4 @@ public class Sailing {
 		this.loading = loading;
 	}
 
-	/**
-	 * Sets the number of car waits.
-	 * @param carWaits	Number of car waits
-	 */
-	public void setCarWaits(int carWaits) {
-		this.carWaits = carWaits;
-	}
-
-	/**
-	 * Sets the number of oversized vehicle waits.
-	 * @param oversizeWaits	Number of oversize waits
-	 */
-	public void setOversizeWaits(int oversizeWaits) {
-		this.oversizeWaits = oversizeWaits;
-	}
 }
