@@ -29,20 +29,20 @@ public class Main {
 			CombinedParser cp = new CombinedParser();
 			ArrayList<Sailing> detailedSailings = cp.getAllSailings();
 
-			System.out.println("All sailings, after combining results from both pages...");
-
-			String output = "";
-
-			for (Sailing s : detailedSailings) {
-
-				// dep -> arr, ship, schedDep, actualDep, arrival, status, loading
-
-				output += s.getDep() + " --> " + s.getArr() + " / " + s.getShipName() + " / " +
-							" Scheduled " + s.getSchedDep().toString() + ", Departed " + s.getActualDep().toString() + ", Arrive(d) " + s.getArrival().toString() +
-							" / Status: " + s.getStatus() + " / " + Integer.toString(s.getLoading()) + "% full";
-
-				System.out.println(output);
-			}
+//			System.out.println("All sailings, after combining results from both pages...");
+//
+//			String output = "";
+//
+//			for (Sailing s : detailedSailings) {
+//
+//				// dep -> arr, ship, schedDep, actualDep, arrival, status, loading
+//
+//				output += s.getDep() + " --> " + s.getArr() + " / " + s.getShipName() + " / " +
+//							" Scheduled " + s.getSchedDep().toString() + ", Departed " + s.getActualDep().toString() + ", Arrive(d) " + s.getArrival().toString() +
+//							" / Status: " + s.getStatus() + " / " + Integer.toString(s.getLoading()) + "% full";
+//
+//				System.out.println(output);
+//			}
 
 
         } catch (Exception e) {

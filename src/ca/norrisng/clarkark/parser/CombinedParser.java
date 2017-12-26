@@ -12,7 +12,8 @@ public class CombinedParser {
 
 	/**
 	 * Parse data from both "At a Glance" and "Today's Departures and Arrivals", and combine the two together.
-	 * @return	All sailings for the day (scheduled or otherwise). The next 3 sailings will include info on vessel loading.
+	 * @return	All sailings for the day (scheduled or otherwise). The next 3 sailings on each route will
+	 * 			include info on vessel loading (i.e. how full it is, in percent).
 	 */
 	public ArrayList<Sailing> getAllSailings() {
 
