@@ -8,10 +8,21 @@ This library is powered by [Jsoup](https://jsoup.org/).
 
 ## Usage
 
-To obtain an ArrayList of all sailings (scheduled or otherwise):
+First, create a `FerryService` object:
 
-    CombinedParser p = new CombinedParser();
-    ArrayList<Sailing> allSailings = p.parse();
+    FerryService s = new FerryService();
+    
+To pull new data from BC Ferries' website:
+
+    s.update();
+    
+To retrieve data from `FerryService`:
+
+    // Sailings for all of BC Ferries' major routes
+    ArrayList<Sailing> allSailings = s.getAllSailngs();
+    
+    // All sailngs from Tsawwassen to Swartz Bay
+    ArrayList<Sailing> tsaSwb = s.getSailings("Tsawwassen", "Swartz Bay")
 
 If available, the sailings returned will include loading data. However, if the sailings has already departed, the loading data will not be available.
     

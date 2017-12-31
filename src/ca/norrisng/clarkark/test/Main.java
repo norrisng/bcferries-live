@@ -1,15 +1,8 @@
 package ca.norrisng.clarkark.test;
 
 import ca.norrisng.clarkark.ferry.Sailing;
-import ca.norrisng.clarkark.parser.ActualParser;
-import ca.norrisng.clarkark.parser.CombinedParser;
-import ca.norrisng.clarkark.parser.GlanceParser;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import ca.norrisng.clarkark.webservice.FerryService;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Main {
@@ -19,14 +12,13 @@ public class Main {
 	public static void main(String[] args) {
 	// write your code here
 
-		String rawPage = "";
-
         try {
 
 			/* 	NOTE: 	to use the offline file for testing purposes,
 			 *			change the OFFLINE_TEST value inside GlanceParser and ActualParser
 			 */
-			CombinedParser cp = new CombinedParser();
+			FerryService cp = new FerryService();
+			cp.update();
 			ArrayList<Sailing> detailedSailings = cp.getAllSailings();
 
 //			System.out.println("All sailings, after combining results from both pages...");
