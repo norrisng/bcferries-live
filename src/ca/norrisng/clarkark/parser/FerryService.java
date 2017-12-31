@@ -3,12 +3,24 @@ package ca.norrisng.clarkark.parser;
 import ca.norrisng.clarkark.ferry.Sailing;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A parser that combines data from the "At a Glance" page (http://orca.bcferries.com:8080/cc/marqui/at-a-glance.asp)
  * and the "Today's Departures and Arrivals" page (http://orca.bcferries.com:8080/cc/marqui/actualDepartures.asp).
  */
 public class CombinedParser {
+
+	private ArrayList<Sailing> allSailings;
+
+	/**
+	 * Timestamp for the current data.
+	 */
+	private Date lastUpdated;
+
+	public CombinedParser() {
+		allSailings = new ArrayList<>();
+	}
 
 	/**
 	 * Parse data from both "At a Glance" and "Today's Departures and Arrivals", and combine the two together.
@@ -17,7 +29,6 @@ public class CombinedParser {
 	 */
 	public ArrayList<Sailing> getAllSailings() {
 
-		ArrayList<Sailing> allSailings = new ArrayList<>();
 		ArrayList<Sailing> detailedSailings = new ArrayList<>();
 
 		ActualParser ap = new ActualParser();
@@ -43,6 +54,17 @@ public class CombinedParser {
 		}
 
 		return allSailings;
+	}
+
+	/**
+	 * Retrieve data from BC Ferries' website.
+	 */
+	public void update() {
+
+
+
+		lastUpdated = new Date();
+
 	}
 
 }
