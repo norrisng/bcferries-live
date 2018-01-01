@@ -8,6 +8,8 @@ This library is powered by [Jsoup](https://jsoup.org/).
 
 ## Usage
 
+*Disclaimer: this is a work in progress. Documented methods may change without prior notice!*
+
 First, create a `FerryService` object:
 
     FerryService s = new FerryService();
@@ -22,9 +24,12 @@ To retrieve data from `FerryService`:
     ArrayList<Sailing> allSailings = s.getAllSailngs();
     
     // All sailngs from Tsawwassen to Swartz Bay
-    ArrayList<Sailing> tsaSwb = s.getSailings("Tsawwassen", "Swartz Bay")
+    ArrayList<Sailing> tsaSwb = s.getSailings("Tsawwassen", "Swartz Bay");
+    
+    // All sailings operated by the Spirit of British Columbia
+    ArrayList<Sailing> sobc = s.getShipSailings("Spirit of British Columbia");
 
-If available, the sailings returned will include loading data. However, if the sailings has already departed, the loading data will not be available.
+If available, the sailings returned will include loading data. However, if the sailing has already departed, the loading data will not be available.
     
 A `Sailing` object represents a sailing (scheduled or otherwise), and includes the following attributes that can be accessed via the relevant getters:
 
@@ -41,4 +46,4 @@ A `FerryRoute` object represents a one-directional route (e.g. Tsawwassen to Swa
 
 ## Planned features
 
-Searching for all Sailings that match a particular set of criteria (e.g. departure/arrival ports, route etc.) will be implemented in future releases.
+Searching for all Sailings that match a particular set of criteria (e.g. departure/arrival ports, route etc.) will be implemented in the future.
