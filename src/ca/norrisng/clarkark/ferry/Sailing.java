@@ -40,7 +40,7 @@ public class Sailing {
 	private LocalTime arrival;
 
 	/**
-	 * Status of sailing: "on time", "delayed", or "cancelled"
+	 * Status of sailing: "scheduled", "on time", "delayed", or "cancelled"
 	 */
 	private String status;
 

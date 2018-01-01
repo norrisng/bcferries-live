@@ -71,9 +71,15 @@ public class ActualParser {
 				// For debugging purposes: show unparsed line
 //				System.out.println("currRow: " + currRow);
 
+				// Edge case: last sailing of the day has departed from Tsawwassen and arrived
+				if (currRow.equals("Data Currently Unavailable")) {
+
+					// do nothing
+
+				}
 
 				// ignore "column title" rows
-				if (!currRow.contains("Status")) {
+				else if (!currRow.contains("Status")) {
 
 					if (currRow.contains("Sailing")) {
 

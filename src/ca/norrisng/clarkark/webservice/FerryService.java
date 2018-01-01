@@ -11,6 +11,9 @@ import java.util.Date;
  */
 public class FerryService {
 
+	/**
+	 * All sailing data for today.
+	 */
 	private ArrayList<Sailing> allSailings;
 
 	/**
@@ -18,6 +21,9 @@ public class FerryService {
 	 */
 	private Date lastUpdated;
 
+	/**
+	 * Instantiates a new FerryService object.
+	 */
 	public FerryService() {
 		allSailings = new ArrayList<>();
 	}
@@ -35,7 +41,7 @@ public class FerryService {
 	 * Get all sailings for a specific route
 	 * @param dep		Departure port
 	 * @param arr		Arrival port
-	 * @return			All sailings for specified route
+	 * @return			All sailings for specified route. An empty ArrayList is returned if none are found.
 	 */
 	public ArrayList<Sailing> getSailings(String dep, String arr) {
 
@@ -50,16 +56,34 @@ public class FerryService {
 	}
 
 	/**
+	 * Get all sailings for a specific vessel
+	 * @param shipName	Ship name. Do not include the "MV" prefix.
+	 * @return			All sailings for the specified ship. An empty ArrayList is returned if none are found.
+	 */
+	public ArrayList<Sailing> getShipSailings(String shipName) {
+
+		ArrayList<Sailing> vesselSailings = new ArrayList<>();
+
+		for (Sailing s : allSailings) {
+			if (s.getShipName().equals(shipName))
+				vesselSailings.add(s);
+		}
+
+		return vesselSailings;
+
+	}
+
+	/**
 	 * Retrieve and update sailing data from BC Ferries' website.
 	 */
 	public void update() {
-
-		lastUpdated = new Date();
 
 		ArrayList<Sailing> detailedSailings = new ArrayList<>();
 
 		ActualParser ap = new ActualParser();
 		allSailings = ap.parse();
+
+		lastUpdated = new Date();
 
 		GlanceParser gp = new GlanceParser();
 		detailedSailings = gp.parse();
