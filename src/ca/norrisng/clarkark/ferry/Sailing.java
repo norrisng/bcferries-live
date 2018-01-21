@@ -45,6 +45,13 @@ public class Sailing {
 	private String status;
 
 	/**
+	 * Full, detailed status of sailing. Aside from "on time", "scheduled" or "cancelled",
+	 * it also includes the original, detailed status as provided by BC Ferries; e.g. "heavy traffic volume",
+	 * "cancelled due to high winds" etc.
+	 */
+	private String fullStatus;
+
+	/**
 	 * How full the sailing is, in percent.
 	 */
 	private int loading;
@@ -101,7 +108,51 @@ public class Sailing {
 			this.status = "Scheduled";
 	}
 
+	/**
+	 * Parses the raw status as provided by BC Ferries and classifies it based on punctuality.
+	 * @param input		Raw status from BC Ferries
+	 * @return			"Scheduled", "On time", "Delayed", or "Cancelled"
+	 */
+	private String parseStatus(String input) {
 
+		String output = "";
+
+		if (input.contains("On Time"))
+			output = "On time";
+
+		else if (isDelayed(input))
+			output = "Delayed";
+
+		else if (input.contains("Cancelled"))
+			output = "Cancelled";
+
+		else
+			// Scheduled sailings have empty statuses
+			output = "Scheduled";
+
+		return output;
+	}
+
+	/**
+	 * Helper method for determining if a particular status implies delay.
+	 * While it tries to cover most scenarios, there will inevitably be a status that
+	 * doesn't contain any keywords and therefore eludes this method.
+	 *
+	 * @param rawStatus	Raw status from BC Ferries
+	 * @return	true if delayed, false if not delayed
+	 */
+	private boolean isDelayed(String rawStatus) {
+
+		String rawStatusLowercase = rawStatus.toLowerCase();
+
+		if (	rawStatusLowercase.contains("delay") ||
+				rawStatusLowercase.contains("traffic") ||		// heavy traffic
+				rawStatusLowercase.contains("vehicle") ||		// stalled vehicle on car deck
+				rawStatusLowercase.contains("staffing"))
+			return true;
+
+		else return false;
+	}
 
 	/**
 	 * Converts 12-hour time to ISO 8601-compliant 24-hour time.
