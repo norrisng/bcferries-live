@@ -93,7 +93,6 @@ public class FerryService {
 
 			for (Sailing a : allSailings) {
 
-				// TODO: null pointer at getArr() (possibly resolved already?)
 				if (detailedSailing.getDep().equals(a.getDep()) &&
 						detailedSailing.getArr().equals(a.getArr()) &&
 						detailedSailing.getSchedDep().equals(a.getSchedDep())) {

@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.Duration;
 import java.util.ArrayList;
 
 /**
@@ -90,8 +91,41 @@ public class ActualParser {
 						arr = currRow.replaceAll(".* to ","");
 						arr = arr.replaceAll(" Sailing.*","");
 
+						// parse sailing time
+
+						/* First, strip everything out so that we're left with "x hours y minutes" */
+						String sailTimeRaw = currRow.replaceAll(".*Sailing time: ","");
+						sailTimeRaw = sailTimeRaw.replaceAll(" \\w+day.*", "");
+
+						// Initialize Duration to 0 - we'll add the hours/minutes as we parse them
+						Duration sailDuration = Duration.ZERO;
+
+						// Special case: sailing time is "variable"
+						if (sailTimeRaw.equalsIgnoreCase("variable")) {
+							sailDuration = null;
+						}
+						// Sailing is shorter than an hour (i.e. "x minutes")
+						else if (!sailTimeRaw.contains("hour")) {
+							sailTimeRaw = sailTimeRaw.replaceAll(" minutes", "");
+							sailDuration = sailDuration.plusMinutes(Long.parseLong(sailTimeRaw));
+						}
+						// Sailing time only contains hours, not minutes (i.e. "x hours")
+						else if (sailTimeRaw.contains("hour") && !sailTimeRaw.contains("minute")) {
+							sailTimeRaw = sailTimeRaw.replaceAll(" hour(s)?","");
+							sailDuration = sailDuration.plusHours(Long.parseLong(sailTimeRaw));
+						}
+						// Sailing time contains a mix of both hours and minutes (i.e. "x hours y minutes")
+						else {
+							String sailHoursRaw = sailTimeRaw.replaceAll(" hour(s)?.*","");
+							String sailMinsRaw = sailTimeRaw.replaceAll(".*hour(s)? ","");
+							sailMinsRaw = sailMinsRaw.replaceAll(" minutes","");
+
+							sailDuration = sailDuration.plusHours(Long.parseLong(sailHoursRaw));
+							sailDuration = sailDuration.plusMinutes(Long.parseLong(sailMinsRaw));
+						}
+
 //						System.out.println("\t" + dep + " --> " + arr);
-						routes.add(new FerryRoute(dep, arr));
+						routes.add(new FerryRoute(dep, arr,sailDuration));
 					}
 
 					else if (!currRow.contains("Sailing")) {
@@ -174,7 +208,12 @@ public class ActualParser {
 
 		System.out.println("\nDetected routes as follows...");
 		for (FerryRoute r : routes) {
-			System.out.println(r.getDep() + " --> " + r.getArr());
+			System.out.print(r.getDep() + " --> " + r.getArr() + " (");
+			if (r.getLength() != null)
+				System.out.println(r.getLength().toString() + ")");
+			else
+				System.out.println("Variable" + ")");
+
 		}
 
 		return allSailings;

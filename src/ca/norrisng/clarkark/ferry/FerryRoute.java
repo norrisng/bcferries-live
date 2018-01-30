@@ -65,6 +65,14 @@ public class FerryRoute {
 		sailings = new ArrayList<Sailing>();
 	}
 
+	public FerryRoute(String dep, String arr, Duration length) {
+		this.dep = dep;
+		this.arr = arr;
+		this.length = length;
+
+		sailings = new ArrayList<Sailing>();
+	}
+
 	public String getDep() {
 		return dep;
 	}
