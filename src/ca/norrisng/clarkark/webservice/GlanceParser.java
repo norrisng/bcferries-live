@@ -80,7 +80,6 @@ public class GlanceParser {
 					String[] scheduledSailingsArray;
 
 					if (!output.equals("Route:Next Sailings")) {
-						System.out.println(output);
 
 						route = output.split(":")[0];
 						dep = route.split(" to ")[0];
@@ -107,7 +106,6 @@ public class GlanceParser {
 								loading = Integer.parseInt(str.replace("%",""));
 
 							else {
-//								System.out.println("  adding sailing: " + dep + " --> " + arr + " at " + depTime + " (" + loading + "% full)");
 
 								try {
 									sailings.add(new Sailing(dep, arr, depTime, loading));
@@ -122,8 +120,9 @@ public class GlanceParser {
 
 						/* end of parsing */
 					}
-					else
-						System.out.println("\n");
+					else {
+
+					}
 
 				}
 			}

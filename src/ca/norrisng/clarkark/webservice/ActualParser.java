@@ -124,16 +124,13 @@ public class ActualParser {
 							sailDuration = sailDuration.plusMinutes(Long.parseLong(sailMinsRaw));
 						}
 
-//						System.out.println("\t" + dep + " --> " + arr);
 						routes.add(new FerryRoute(dep, arr,sailDuration));
 					}
 
 					else if (!currRow.contains("Sailing")) {
 
-//						System.out.println("\t" + dep + " --> " + arr);
 						// Strip out everything but the vessel name
 						String shipName = currRow.replaceAll(" \\d{1,2}.*(A|P)M.*","");
-//						System.out.print("Ship: " + shipName + ": ");
 
 						// First, collapse the space separating the minutes and "AM"/"PM" so we can call split() without losing them
 						String rawTimes = currRow.replaceAll(" AM","AM").replaceAll(" PM","PM");
@@ -181,7 +178,6 @@ public class ActualParser {
 						}
 						// end parsing sailings times and status
 
-
 						try {
 							allSailings.add(new Sailing(dep, arr, shipName, status, schedDep, actualDep, estArr));
 						}
@@ -194,25 +190,6 @@ public class ActualParser {
 
 				}
 			}
-
-		}
-
-		System.out.println("\nDetected sailings as follows...");
-		for (Sailing s : allSailings) {
-			String output = "";
-			output += 	s.getDep() + " --> " + s.getArr() + ": " +
-						s.getShipName() + ", Scheduled " + s.getSchedDep() + ", Departed " + s.getActualDep() + ", Arrival " + s.getArrival() +
-						"\nStatus: " + s.getStatus() + "\n";
-			System.out.println(output);
-		}
-
-		System.out.println("\nDetected routes as follows...");
-		for (FerryRoute r : routes) {
-			System.out.print(r.getDep() + " --> " + r.getArr() + " (");
-			if (r.getLength() != null)
-				System.out.println(r.getLength().toString() + ")");
-			else
-				System.out.println("Variable" + ")");
 
 		}
 
