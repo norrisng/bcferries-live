@@ -124,7 +124,7 @@ public class ActualParser {
 							sailDuration = sailDuration.plusMinutes(Long.parseLong(sailMinsRaw));
 						}
 
-						routes.add(new FerryRoute(dep, arr,sailDuration));
+						routes.add(new FerryRoute(dep, arr, sailDuration));
 					}
 
 					else if (!currRow.contains("Sailing")) {
@@ -169,7 +169,7 @@ public class ActualParser {
 										break;
 									}
 									default:    // status
-										status += " " + s;
+										status += s + " ";
 										break;
 								}
 

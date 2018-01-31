@@ -28,6 +28,10 @@ public class FerryService {
 		allSailings = new ArrayList<>();
 	}
 
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
 	/**
 	 * Get all the sailings for the day.
 	 * @return	All sailings for the day (scheduled or otherwise). The next 3 sailings on each route will

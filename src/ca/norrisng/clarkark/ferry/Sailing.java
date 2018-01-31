@@ -40,16 +40,16 @@ public class Sailing {
 	private LocalTime arrival;
 
 	/**
-	 * Status of sailing: "scheduled", "on time", "delayed", or "cancelled"
+	 * Status of sailing. It is either "Scheduled", "On time", "Arrived", "Delayed", or "Cancelled".
 	 */
-	private String status;
+	private String shortStatus;
 
 	/**
-	 * Full, detailed status of sailing. Aside from "on time", "scheduled" or "cancelled",
-	 * it also includes the original, detailed status as provided by BC Ferries; e.g. "heavy traffic volume",
+	 * 	Full, detailed status of sailing. as provided by BC Ferries.
+	 * 	May also include the reason for delay/cancellation, such as "heavy traffic volume",
 	 * "cancelled due to high winds" etc.
 	 */
-	private String fullStatus;
+	private String detailedStatus;
 
 	/**
 	 * How full the sailing is, in percent.
@@ -76,17 +76,17 @@ public class Sailing {
 	 * @param dep		Departure port. Do not include the word "terminal" at the end.
 	 * @param arr		Arrival port. Do not include the word "terminal" at the end.
 	 * @param shipName	Vessel name. Do not include the "MV" prefix.
-	 * @param status	Status ("Scheduled", "On Time", or other reason as provided by BC Ferries)
+	 * @param detailedStatus	Status ("Scheduled", "On Time", or other reason as provided by BC Ferries)
 	 * @param schedDep	Scheduled departure time
 	 * @param actualDep	Actual departure time
 	 * @param arrival	Arrival time. May be estimated or actual. If not yet available, use null.
 	 * @throws ParseException	Arrival time cannot be parsed
 	 */
-	public Sailing (String dep, String arr, String shipName, String status, String schedDep, String actualDep, String arrival) throws ParseException {
+	public Sailing (String dep, String arr, String shipName, String detailedStatus, String schedDep, String actualDep, String arrival) throws ParseException {
 		this.dep = dep;
 		this.arr = arr;
 		this.shipName = shipName;
-		this.status = status;
+		this.detailedStatus = detailedStatus;
 
 		this.schedDep = LocalTime.parse(getIso(schedDep));
 
@@ -103,55 +103,46 @@ public class Sailing {
 			// strip the "ETA:" if present
 			this.arrival = LocalTime.parse(getIso(arrival.replace("ETA:","")));
 		}
+//
+//		if (this.actualDep == null)
+//			this.status = "Scheduled";
 
-		if (this.actualDep == null)
-			this.status = "Scheduled";
+		this.shortStatus = generateShortStatus();
 	}
 
 	/**
-	 * Parses the raw status as provided by BC Ferries and classifies it based on punctuality.
-	 * @param input		Raw status from BC Ferries
-	 * @return			"Scheduled", "On time", "Delayed", or "Cancelled"
+	 * Parses the raw status as provided by BC Ferries and generates the short status, based on
+	 * the actual/scheduled departure and arrival times, in addition to the original raw status.
+	 * This can only be called after departure/arrival times are set!
+	 * @return			"Scheduled", "On time", "Arrived", "Delayed", or "Cancelled"
 	 */
-	private String parseStatus(String input) {
+	private String generateShortStatus() {
 
 		String output = "";
 
-		if (input.contains("On Time"))
-			output = "On time";
-
-		else if (isDelayed(input))
-			output = "Delayed";
-
-		else if (input.contains("Cancelled"))
-			output = "Cancelled";
-
-		else
-			// Scheduled sailings have empty statuses
+		// Not yet departed
+		if (actualDep == null)
 			output = "Scheduled";
 
+		// Arrived
+		else if(arrival != null && arrival.isBefore(LocalTime.now()))
+			output = "Arrived";
+
+		// Delayed
+		//	i.e. when (schedDep + 10 mins) < actualDep
+		else if (schedDep.plusMinutes(10).isBefore(actualDep))
+			output = "Delayed";
+
+		// Cancelled
+		else if (detailedStatus.contains("cancelled"))
+			output = "Cancelled";
+
+		// On time
+		else if (detailedStatus.contains("On Time")) {
+			output = "On time";
+		}
+
 		return output;
-	}
-
-	/**
-	 * Helper method for determining if a particular status implies delay.
-	 * While it tries to cover most scenarios, there will inevitably be a status that
-	 * doesn't contain any keywords and therefore eludes this method.
-	 *
-	 * @param rawStatus	Raw status from BC Ferries
-	 * @return	true if delayed, false if not delayed
-	 */
-	private boolean isDelayed(String rawStatus) {
-
-		String rawStatusLowercase = rawStatus.toLowerCase();
-
-		if (	rawStatusLowercase.contains("delay") ||
-				rawStatusLowercase.contains("traffic") ||		// heavy traffic
-				rawStatusLowercase.contains("vehicle") ||		// stalled vehicle on car deck
-				rawStatusLowercase.contains("staffing"))
-			return true;
-
-		else return false;
 	}
 
 	/**
@@ -167,10 +158,18 @@ public class Sailing {
 
 	}
 
+	/**
+	 * Retrives the departure port of this sailing.
+	 * @return		Name of departure port
+	 */
 	public String getDep() {
 		return dep;
 	}
 
+	/**
+	 * Retrieves the arrival port of this sailing.
+	 * @return		Name of arrival port
+	 */
 	public String getArr() {
 		return arr;
 	}
@@ -191,8 +190,12 @@ public class Sailing {
 		return arrival;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getShortStatus() {
+		return shortStatus;
+	}
+
+	public String getDetailedStatus() {
+		return detailedStatus;
 	}
 
 	public int getLoading() {
