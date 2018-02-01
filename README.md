@@ -18,13 +18,13 @@ To pull new data from BC Ferries' website:
 
     s.update();
     
-To retrieve data from `FerryService`:
+Once `update()` has been called at least once, data can then be retrieved from the `FerryService` object:
 
     // Sailings for all of BC Ferries' major routes
     ArrayList<Sailing> allSailings = s.getAllSailngs();
     
-    // All sailngs from Tsawwassen to Swartz Bay
-    ArrayList<Sailing> tsaSwb = s.getSailings("Tsawwassen", "Swartz Bay");
+    // All sailngs from Swartz Bay to Fulford Harbour
+    ArrayList<Sailing> swartzToSaltspring = s.getSailings("Swartz Bay", "Fulford Harbour (Saltspring Is.");
     
     // All sailings operated by the Spirit of British Columbia
     ArrayList<Sailing> sobc = s.getShipSailings("Spirit of British Columbia");
@@ -35,15 +35,13 @@ A `Sailing` object represents a sailing (scheduled or otherwise), and includes t
 
 * Departure/arrival port
 * Ship name
-* Status (e.g. "On Time", "Heavy Traffic" etc.)
+* Short status (one of "Scheduled", "On time", "Delayed", "Cancelled", or "Arrived")
+* Detailed status (as provided by BC Ferries)
 * Scheduled departure time
 * Actual departure time
 * Arrival time (estimated or actual) 
+* Loading (i.e. how full the sailing is, in percent)
 
-If the sailing hasn't departured yet, the departure and arrival times will have a value of `null`.
+If not yet available, `null` values are provided for departure/arrival times, as appropriate.
 
 A `FerryRoute` object represents a one-directional route (e.g. Tsawwassen to Swartz Bay, but not vice versa).
-
-## Planned features
-
-Searching for all Sailings that match a particular set of criteria (e.g. departure/arrival ports, route etc.) will be implemented in the future.
