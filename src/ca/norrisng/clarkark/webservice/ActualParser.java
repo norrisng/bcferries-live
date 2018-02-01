@@ -82,6 +82,7 @@ public class ActualParser {
 				// ignore "column title" rows
 				else if (!currRow.contains("Status")) {
 
+					// This row contains general route info (i.e. dep/arr ports, sailing time, day)
 					if (currRow.contains("Sailing")) {
 
 						// Strip out everything except for the departure port
@@ -127,6 +128,7 @@ public class ActualParser {
 						routes.add(new FerryRoute(dep, arr, sailDuration));
 					}
 
+					// This row contains info for a particular sailing (i.e. vessel, STD / ATD / ETA / status)
 					else if (!currRow.contains("Sailing")) {
 
 						// Strip out everything but the vessel name

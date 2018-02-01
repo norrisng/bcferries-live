@@ -25,7 +25,7 @@ public class FerryRoute {
 	private LocalDate date;
 
 	/**
-	 * Scheduled length of the route.
+	 * Scheduled duration of the route.
 	 */
 	private Duration length;
 
@@ -71,6 +71,13 @@ public class FerryRoute {
 		this.length = length;
 
 		sailings = new ArrayList<Sailing>();
+	}
+
+	/**
+	 * Empty constructor.
+	 */
+	public FerryRoute() {
+
 	}
 
 	public String getDep() {

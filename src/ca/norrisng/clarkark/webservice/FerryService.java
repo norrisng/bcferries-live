@@ -60,7 +60,7 @@ public class FerryService {
 	}
 
 	/**
-	 * Get all sailings for a specific vessel
+	 * Get all sailings for a specific vessel.
 	 * @param shipName	Ship name. Do not include the "MV" prefix.
 	 * @return			All sailings for the specified ship. An empty ArrayList is returned if none are found.
 	 */

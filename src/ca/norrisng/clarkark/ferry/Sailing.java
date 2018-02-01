@@ -103,9 +103,6 @@ public class Sailing {
 			// strip the "ETA:" if present
 			this.arrival = LocalTime.parse(getIso(arrival.replace("ETA:","")));
 		}
-//
-//		if (this.actualDep == null)
-//			this.status = "Scheduled";
 
 		this.shortStatus = generateShortStatus();
 	}
@@ -174,36 +171,64 @@ public class Sailing {
 		return arr;
 	}
 
+	/**
+	 * Retrieves the vessel name for this sailing.
+	 * @return		Vessel name, without the "MV" prefix
+	 */
 	public String getShipName() {
 		return shipName;
 	}
 
+	/**
+	 * Retrieves the scheduled departure time for this sailing.
+	 * @return		Scheduled departure time
+	 */
 	public LocalTime getSchedDep() {
 		return schedDep;
 	}
 
+	/**
+	 * Retrieves the actual departure time for this sailing.
+	 * @return		Actual departure time. <code>null</code> if the sailing hasn't departed yet.
+	 */
 	public LocalTime getActualDep() {
 		return actualDep;
 	}
 
+	/**
+	 * Retrieves the arrival time for this sailing.
+	 * @return		Arrival time. If it hasn't arrived yet, it is instead the estimated arrival time.
+	 * 				<code>null</code> if the sailing hasn't departed yet.
+	 */
 	public LocalTime getArrival() {
 		return arrival;
 	}
 
+	/**
+	 * Retrives the status of the sailing.
+	 * @return		"Scheduled", "On time", "Arrived", "Delayed", or "Cancelled"
+	 */
 	public String getShortStatus() {
 		return shortStatus;
 	}
 
+	/**
+	 * Retrieves the detailed status of the sailing, as provided by BC Ferries.
+	 * @return		Detailed status of the sailing. Includes reason for delay/cancellation, if available.
+	 */
 	public String getDetailedStatus() {
 		return detailedStatus;
 	}
 
+	/**
+	 * Retrieves the loading of the current sailing. This includes both cars and oversized vehicles.
+	 * Only available for the next 3 sailings.
+	 * @return		How full the sailing is, in percent.
+	 * 				If the sailing has already departed, or is not one of the next 3 departures,
+	 * 				a value of <code>0</code> is returned.
+	 */
 	public int getLoading() {
 		return loading;
-	}
-
-	public void setShipName(String shipName) {
-		this.shipName = shipName;
 	}
 
 	/**
