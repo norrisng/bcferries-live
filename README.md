@@ -28,8 +28,6 @@ Once `update()` has been called at least once, data can then be retrieved from t
     
     // All sailings operated by the Spirit of British Columbia
     ArrayList<Sailing> sobc = s.getShipSailings("Spirit of British Columbia");
-
-If available, the sailings returned will include loading data. However, if the sailing has already departed, the loading data will not be available.
     
 A `Sailing` object represents a sailing (scheduled or otherwise), and includes the following attributes that can be accessed via the relevant getters:
 
@@ -44,4 +42,6 @@ A `Sailing` object represents a sailing (scheduled or otherwise), and includes t
 
 If not yet available, `null` values are provided for departure/arrival times, as appropriate.
 
-A `FerryRoute` object represents a one-directional route (e.g. Tsawwassen to Swartz Bay, but not vice versa).
+Loading data is only available for the next 3 departures on each route. Data is also not available if the sailing has already departed.
+
+A `FerryRoute` object represents a route in one direction (e.g. Tsawwassen to Swartz Bay, but not vice versa).
