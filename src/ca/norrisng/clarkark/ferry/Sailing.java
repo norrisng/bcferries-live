@@ -121,9 +121,10 @@ public class Sailing {
 		if (actualDep == null)
 			output = "Scheduled";
 
-		// Arrived
-		else if(arrival != null && arrival.isBefore(LocalTime.now()))
-			output = "Arrived";
+		// let the frontend handle whether or not the Sailing has already arrived instead
+//		// Arrived
+//		else if(arrival != null && arrival.isBefore(LocalTime.now()))
+//			output = "Arrived";
 
 		// Delayed
 		//	i.e. when (schedDep + 10 mins) < actualDep
@@ -237,6 +238,14 @@ public class Sailing {
 	 */
 	public void setLoading(int loading) {
 		this.loading = loading;
+	}
+
+	public void setShortStatus(String shortStatus) {
+		this.shortStatus = shortStatus;
+	}
+
+	public void setDetailedStatus(String detailedStatus) {
+		this.detailedStatus = detailedStatus;
 	}
 
 }

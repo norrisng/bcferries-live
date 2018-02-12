@@ -28,6 +28,8 @@ Once `update()` has been called at least once, data can then be retrieved from t
     
     // All sailings operated by the Spirit of British Columbia
     ArrayList<Sailing> sobc = s.getShipSailings("Spirit of British Columbia");
+
+## Sailings
     
 A `Sailing` object represents a sailing (scheduled or otherwise), and includes the following attributes that can be accessed via the relevant getters:
 
@@ -40,8 +42,20 @@ A `Sailing` object represents a sailing (scheduled or otherwise), and includes t
 * Arrival time (estimated or actual) 
 * Loading (i.e. how full the sailing is, in percent)
 
-If not yet available, `null` values are provided for departure/arrival times, as appropriate.
+### Important notes
+
+#### Status
+
+This library predicts whether future sailings are delayed. A scheduled sailing is marked as delayed if the ship was delayed on previous sailings. 
+
+If a delay is predicted, this will be indicated in the detailed status as "Possible ongoing delay".
+
+#### Departure and arrival times
+
+If not yet available, `null` values are provided as appropriate.
+
+#### Loading data
 
 Loading data is only available for the next 3 departures on each route. Data is also not available if the sailing has already departed.
 
-A `FerryRoute` object represents a route in one direction (e.g. Tsawwassen to Swartz Bay, but not vice versa).
+If loading data is not available, it will have a value of `0`.

@@ -3,6 +3,7 @@ package ca.norrisng.clarkark.test;
 import ca.norrisng.clarkark.ferry.Sailing;
 import ca.norrisng.clarkark.webservice.FerryService;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Main {
@@ -38,12 +39,21 @@ public class Main {
 								"From", "To", "Ship", "Sched dep", "Actual dep", "Est / actual arr", "Status", "Loading");
 			System.out.println("");
 
+			String shortStatus = "";
+
 			for (Sailing s : detailedSailings) {
 
-				System.out.printf("%-20s %-35s %-30s %-11s %-11s %-20s %-30s %-10s",
+				// If the Sailing has already arrived, mark it as such
+				if (s.getArrival() != null && s.getArrival().isBefore(LocalTime.now())) {
+					shortStatus = "Arrived";
+				}
+				else
+					shortStatus = s.getShortStatus();
+
+				System.out.printf("%-20s %-35s %-30s %-11s %-11s %-20s %-30s %-10s %-3s",
 									s.getDep(), s.getArr(), s.getShipName(),
 									s.getSchedDep(), s.getActualDep(), s.getArrival(),
-									s.getShortStatus(), s.getLoading());
+									shortStatus, s.getLoading(), s.getDetailedStatus());
 				System.out.println("");
 
 			}

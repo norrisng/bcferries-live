@@ -4,6 +4,8 @@ import ca.norrisng.clarkark.ferry.Sailing;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A parser that combines data from the "At a Glance" page (http://orca.bcferries.com:8080/cc/marqui/at-a-glance.asp)
@@ -92,15 +94,33 @@ public class FerryService {
 		GlanceParser gp = new GlanceParser();
 		detailedSailings = gp.parse();
 
-		// Add loading info to the relevant sailings
 		for (Sailing detailedSailing : detailedSailings) {
 
+			Set<String> delayedShips = new HashSet<>();
+
+			// Add loading info to the relevant sailings
 			for (Sailing a : allSailings) {
 
 				if (detailedSailing.getDep().equals(a.getDep()) &&
 						detailedSailing.getArr().equals(a.getArr()) &&
 						detailedSailing.getSchedDep().equals(a.getSchedDep())) {
 					a.setLoading(detailedSailing.getLoading());
+				}
+
+				// Is this ship currently experiencing delays?
+				if (a.getShortStatus() == "Delayed") {
+					delayedShips.add(a.getShipName());
+				}
+
+				// Was this ship delayed previously?
+				if (delayedShips.contains(a.getShipName())) {
+
+					// Only change the short/detailed statuses for sailings that haven't departed yet
+					if (a.getShortStatus().equalsIgnoreCase("Scheduled")) {
+						a.setDetailedStatus("Possible ongoing delay");
+						a.setShortStatus("Delayed");
+					}
+
 				}
 
 			}
