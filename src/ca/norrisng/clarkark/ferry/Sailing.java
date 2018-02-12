@@ -117,8 +117,8 @@ public class Sailing {
 
 		String output = "";
 
-		// Not yet departed
-		if (actualDep == null)
+		// Not yet departed, and not cancelled
+		if (actualDep == null && !detailedStatus.contains("Cancelled"))
 			output = "Scheduled";
 
 		// let the frontend handle whether or not the Sailing has already arrived instead
@@ -126,14 +126,15 @@ public class Sailing {
 //		else if(arrival != null && arrival.isBefore(LocalTime.now()))
 //			output = "Arrived";
 
+		// Cancelled
+		else if (detailedStatus.contains("Cancelled"))
+			output = "Cancelled";
+
 		// Delayed
 		//	i.e. when (schedDep + 10 mins) < actualDep
 		else if (schedDep.plusMinutes(10).isBefore(actualDep))
 			output = "Delayed";
 
-		// Cancelled
-		else if (detailedStatus.contains("cancelled"))
-			output = "Cancelled";
 
 		// On time
 		else if (detailedStatus.contains("On Time")) {

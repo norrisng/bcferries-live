@@ -177,6 +177,18 @@ public class ActualParser {
 
 								i++;
 							}
+
+							/*
+								If the sailng is scheduled, but cancelled, currRow will contain "Cancelled" somewhere.
+								In this case, anything parsed after the STD in currRow is likely garbage (and useless anyway),
+								so we can just plug in the values below.
+							*/
+							if (currRow.contains("Cancelled")) {
+								actualDep = "";
+								estArr = "";
+								status = "Cancelled";
+							}
+
 						}
 						// end parsing sailings times and status
 
